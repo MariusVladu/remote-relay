@@ -1,10 +1,10 @@
 import json
 import mqtt_client_setup as mqtt
 import _thread
+import relay
 from time import sleep
 
 connected = False
-status = "off"
 command_topic = f"command_{mqtt.client_id}"
 
 
@@ -20,12 +20,17 @@ def process_command_message(message):
     global status
     command = message["command"]
 
-    if command == "on":
-        print("Turning on")
-        status = "on"
+    if command == "reset_all":
+        print("Resetting all relays")
+        relay.reset_all()
+    elif command == "on":
+        k = int(message["k"])
+        print(f"Turning on relay {k}")
+        relay.relays[k].switch_on()
     elif command == "off":
-        print("Turning off")
-        status = "off"
+        k = int(message["k"])
+        print(f"Turning on relay {k}")
+        relay.relays[k].switch_off()
     else:
         print(f"Unknown command {command}")
         return
@@ -35,7 +40,11 @@ def process_command_message(message):
 def report_status():
     mqtt.publish(
         topic="status",
-        message={"client_id": mqtt.client_id, "type": "relay", "status": status},
+        message={
+            "client_id": mqtt.client_id,
+            "type": "relay",
+            "status": relay.get_status(),
+        },
     )
 
 
@@ -45,6 +54,7 @@ def continuously_report_status():
         sleep(5)
 
 
+relay.init()
 mqtt.init(wlan_init=True, callback=on_message_received, topics=[command_topic])
 connected = True
 _thread.start_new_thread(continuously_report_status, ())
@@ -55,3 +65,4 @@ try:
 finally:
     connected = False
     mqtt.__client.disconnect()
+    relay.reset_all()

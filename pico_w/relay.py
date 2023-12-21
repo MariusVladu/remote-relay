@@ -21,18 +21,27 @@ class Relay:
             self.switch_off()
 
 
-relays = [
-    Relay(gpio_pin=0),
-    Relay(gpio_pin=1),
-    Relay(gpio_pin=2),
-    Relay(gpio_pin=3),
-    Relay(gpio_pin=4),
-    Relay(gpio_pin=5),
-    Relay(gpio_pin=6),
-    Relay(gpio_pin=7),
-]
+relays: list[Relay] = []
+
+
+def init():
+    if len(relays) > 0:
+        raise Exception("Relays already initialized")
+
+    relays.append(Relay(gpio_pin=0))
+    relays.append(Relay(gpio_pin=1))
+    relays.append(Relay(gpio_pin=2))
+    relays.append(Relay(gpio_pin=3))
+    relays.append(Relay(gpio_pin=4))
+    relays.append(Relay(gpio_pin=5))
+    relays.append(Relay(gpio_pin=6))
+    relays.append(Relay(gpio_pin=7))
 
 
 def reset_all():
     for relay in relays:
         relay.switch_off()
+
+
+def get_status():
+    return [relay.state for relay in relays]
