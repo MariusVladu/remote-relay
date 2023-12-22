@@ -4,15 +4,19 @@ using System.Text.Json;
 using HomeAssistant.Domain.Entities;
 using System.Text.Json.Nodes;
 using HomeAssistant.BusinessLogic.Contracts;
+using HomeAssistant.DI;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace HomeAssistant.MQTT;
 
-public class Listener(IMqttMessageHandler messagesHandler)
+public static class Listener
 {
-    public async Task ContinuouslyListenToAllMessages()
+    private static IServiceProvider RootServiceProvider = DependencyResolver.GetServiceProvider();
+
+    public static async Task ContinuouslyListenToAllMessages()
     {
         var mqttFactory = new MqttFactory();
-        using var mqttClient = mqttFactory.CreateMqttClient();
+        var mqttClient = mqttFactory.CreateMqttClient();
 
         var mqttClientOptions = new MqttClientOptionsBuilder().WithTcpServer("0.0.0.0").Build();
         mqttClient.ApplicationMessageReceivedAsync += HandleMessage;
@@ -30,7 +34,7 @@ public class Listener(IMqttMessageHandler messagesHandler)
         exitEvent.WaitOne();
     }
 
-    private async Task HandleMessage(MqttApplicationMessageReceivedEventArgs e)
+    private static async Task HandleMessage(MqttApplicationMessageReceivedEventArgs e)
     {
         var clientId = e.ClientId;
         var topic = e.ApplicationMessage.Topic;
@@ -42,6 +46,9 @@ public class Listener(IMqttMessageHandler messagesHandler)
             ArgumentNullException.ThrowIfNull(payload);
 
             var mqttMessage = new MqttMessage(clientId, topic, payload);
+
+            var scope = RootServiceProvider.CreateScope();
+            var messagesHandler = scope.ServiceProvider.GetRequiredService<IMqttMessageHandler>();
 
             await messagesHandler.HandleMessage(mqttMessage);
         }

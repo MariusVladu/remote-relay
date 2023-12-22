@@ -14,4 +14,6 @@ services:
     build:
       context: .
       dockerfile: HomeAssistant.API/Dockerfile
+    volumes:
+    - ./Database/HomeAssistant.db:/app/Database/HomeAssistant.db
 

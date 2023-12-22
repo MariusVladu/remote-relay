@@ -1,5 +1,4 @@
-﻿using HomeAssistant.BusinessLogic;
-using HomeAssistant.BusinessLogic.Contracts;
+﻿using HomeAssistant.Services.DI;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HomeAssistant.DI;
@@ -8,7 +7,9 @@ public static class DependencyResolver
 {
     public static IServiceCollection AddDependencies(this IServiceCollection services)
     {
-        services.AddSingleton<IMqttMessageHandler, MqttMessageHandler>();
+        services
+            .AddServicesLayer()
+            .AddBusinessLogicLayer();
 
         return services;
     }

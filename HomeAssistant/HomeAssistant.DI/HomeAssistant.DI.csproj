@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HomeAssistant.BusinessLogic\HomeAssistant.BusinessLogic.csproj" />
+    <ProjectReference Include="..\HomeAssistant.Services\HomeAssistant.Services.csproj" />
   </ItemGroup>
 
 </Project>
