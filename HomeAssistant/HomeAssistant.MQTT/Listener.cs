@@ -1,15 +1,17 @@
 ﻿using MQTTnet.Client;
 using MQTTnet;
 using System.Text.Json;
+using HomeAssistant.Domain.Entities;
+using System.Text.Json.Nodes;
+using HomeAssistant.BusinessLogic.Contracts;
 
 namespace HomeAssistant.MQTT;
 
-public class Listener
+public class Listener(IMqttMessageHandler messagesHandler)
 {
-    private static MqttFactory mqttFactory = new MqttFactory();
-
-    public static async Task StartListeningToAllMessages()
+    public async Task ContinuouslyListenToAllMessages()
     {
+        var mqttFactory = new MqttFactory();
         using var mqttClient = mqttFactory.CreateMqttClient();
 
         var mqttClientOptions = new MqttClientOptionsBuilder().WithTcpServer("0.0.0.0").Build();
@@ -28,11 +30,24 @@ public class Listener
         exitEvent.WaitOne();
     }
 
-    private static async Task HandleMessage(MqttApplicationMessageReceivedEventArgs e)
+    private async Task HandleMessage(MqttApplicationMessageReceivedEventArgs e)
     {
         var clientId = e.ClientId;
         var topic = e.ApplicationMessage.Topic;
-        var message = e.ApplicationMessage.ConvertPayloadToString();
-        Console.WriteLine($"Received application message:\nclientId={clientId}\ntopic={topic}\nmessage={message}");
+        var rawPayload = e.ApplicationMessage.ConvertPayloadToString();
+
+        try
+        {
+            var payload = JsonSerializer.Deserialize<JsonNode>(rawPayload);
+            ArgumentNullException.ThrowIfNull(payload);
+
+            var mqttMessage = new MqttMessage(clientId, topic, payload);
+
+            await messagesHandler.HandleMessage(mqttMessage);
+        }
+        catch (Exception)
+        {
+            Console.WriteLine($"Failed to deserialize payload for topic {topic}. Raw payload:\n{rawPayload}");
+        }
     }
 }

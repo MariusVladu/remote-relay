@@ -2,8 +2,4 @@
 
 namespace HomeAssistant.Domain.Entities;
 
-public record MqttMessage
-{
-    public required string ClientId { get; init; }
-    public required JsonNode Payload { get; init; }
-}
+public record MqttMessage(string ClientId, string Topic, JsonNode Payload);
