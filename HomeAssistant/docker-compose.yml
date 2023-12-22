@@ -7,13 +7,23 @@ services:
       context: .
       dockerfile: HomeAssistant.MQTT/Dockerfile
     ports:
-    - "1883:1883"
+      - "1883:1883"
 
   homeassistant.api:
     image: ${DOCKER_REGISTRY-}homeassistantapi
     build:
       context: .
       dockerfile: HomeAssistant.API/Dockerfile
-    volumes:
-    - ./Database/HomeAssistant.db:/app/Database/HomeAssistant.db
+    environment:
+      - MONGODB_CONNECTION_STRING=mongodb://homeassistant.mongodb:27017/
+    depends_on:
+      - homeassistant.mongodb
 
+  homeassistant.mongodb:
+    image: mongo:7.0
+    ports:
+      - '27017:27017'
+    volumes:
+      - database:/data/db
+volumes:
+  database:

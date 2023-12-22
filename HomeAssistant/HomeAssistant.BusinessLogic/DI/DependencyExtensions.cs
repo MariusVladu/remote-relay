@@ -8,8 +8,8 @@ public static class DependencyExtensions
 {
     public static IServiceCollection AddBusinessLogicLayer(this IServiceCollection services)
     {
-        services.AddScoped<IMqttMessageHandler, MqttMessageHandler>();
-        services.AddScoped<IRelaysBusinessLogic, RelaysBusinessLogic>();
+        services.AddSingleton<IMqttMessageHandler, MqttMessageHandler>();
+        services.AddSingleton<IRelaysBusinessLogic, RelaysBusinessLogic>();
 
         return services;
     }
