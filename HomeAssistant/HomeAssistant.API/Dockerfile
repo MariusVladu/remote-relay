@@ -11,7 +11,7 @@ COPY ["HomeAssistant.API/HomeAssistant.API.csproj", "HomeAssistant.API/"]
 RUN dotnet restore "./HomeAssistant.API/./HomeAssistant.API.csproj"
 COPY . .
 WORKDIR "/src/HomeAssistant.API"
-RUN dotnet build "./HomeAssistant.API.csproj" -c $BUILD_CONFIGURATION -o /app/build --no-restore
+RUN dotnet build "./HomeAssistant.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
