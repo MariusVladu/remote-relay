@@ -3,6 +3,7 @@ version: '3.4'
 services:
   homeassistant.mqtt:
     image: ${DOCKER_REGISTRY-}homeassistantmqtt
+    restart: always
     build:
       context: .
       dockerfile: HomeAssistant.MQTT/Dockerfile
@@ -11,9 +12,13 @@ services:
 
   homeassistant.api:
     image: ${DOCKER_REGISTRY-}homeassistantapi
+    restart: always
     build:
       context: .
       dockerfile: HomeAssistant.API/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
     environment:
       - MONGODB_CONNECTION_STRING=mongodb://homeassistant.mongodb:27017/
     depends_on:
@@ -21,6 +26,7 @@ services:
 
   homeassistant.mongodb:
     image: mongo:7.0
+    restart: always
     ports:
       - '27017:27017'
     volumes:
