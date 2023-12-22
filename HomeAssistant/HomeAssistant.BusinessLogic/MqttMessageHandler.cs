@@ -18,9 +18,29 @@ internal class MqttMessageHandler(IRelaysService relaysService) : IMqttMessageHa
         if (message.Payload["type"]?.ToString() is "relay")
         {
             var relayId = message.ClientId;
-            var relayStatus = message.Payload["status"].Deserialize<List<int>>()!;
+            var switchesStatuses = message.Payload["status"].Deserialize<List<bool>>()!;
 
-            var relay = new Relay { Id = relayId, Status = relayStatus };
+            var relay = await relaysService.TryGetById(relayId);
+            if (relay is null)
+            {
+                relay = new Relay
+                {
+                    Id = relayId,
+                    Switches = switchesStatuses
+                        .Select((status, index) => new Switch
+                        {
+                            K = index,
+                            State = false,
+                            Label = index.ToString()
+                        })
+                        .ToList()
+                };
+            }
+
+            for (int i = 0; i < switchesStatuses.Count; i++)
+            {
+                relay.Switches[i].State = switchesStatuses[i];
+            }
 
             await relaysService.Upsert(relay);
         }

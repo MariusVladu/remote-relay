@@ -8,14 +8,14 @@ class Relay:
 
     def switch_on(self):
         self.pin.value(0)
-        self.state = "on"
+        self.state = True
 
     def switch_off(self):
         self.pin.value(1)
-        self.state = "off"
+        self.state = False
 
     def toggle(self):
-        if self.state == "off":
+        if self.state is False:
             self.switch_on()
         else:
             self.switch_off()
