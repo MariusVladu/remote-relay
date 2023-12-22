@@ -1,3 +1,5 @@
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
@@ -8,6 +10,10 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["HomeAssistant.API/HomeAssistant.API.csproj", "HomeAssistant.API/"]
+COPY ["HomeAssistant.DI/HomeAssistant.DI.csproj", "HomeAssistant.DI/"]
+COPY ["HomeAssistant.BusinessLogic/HomeAssistant.BusinessLogic.csproj", "HomeAssistant.BusinessLogic/"]
+COPY ["HomeAssistant.Domain/HomeAssistant.Domain.csproj", "HomeAssistant.Domain/"]
+COPY ["HomeAssistant.Services/HomeAssistant.Services.csproj", "HomeAssistant.Services/"]
 RUN dotnet restore "./HomeAssistant.API/./HomeAssistant.API.csproj"
 COPY . .
 WORKDIR "/src/HomeAssistant.API"
