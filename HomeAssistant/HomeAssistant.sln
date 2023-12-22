@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAssistant.API", "HomeAssistant.API\HomeAssistant.API.csproj", "{CC6CC103-A304-4487-9AE9-E786E6F9B82B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeAssistant.API", "HomeAssistant.API\HomeAssistant.API.csproj", "{CC6CC103-A304-4487-9AE9-E786E6F9B82B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAssistant.BusinessLogic", "HomeAssistant.BusinessLogic\HomeAssistant.BusinessLogic.csproj", "{5DBF7357-2622-48C2-AD99-187DD2359401}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAssistant.Domain", "HomeAssistant.Domain\HomeAssistant.Domain.csproj", "{1CBF8DCC-BFB7-4E44-9A93-64E35056B91B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAssistant.Services", "HomeAssistant.Services\HomeAssistant.Services.csproj", "{ED6004D3-9FD0-4C27-906F-9C22409D8954}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAssistant.DI", "HomeAssistant.DI\HomeAssistant.DI.csproj", "{2B1CA7DF-38B6-4E46-8C1D-BCFC6287530A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAssistant.MQTT", "HomeAssistant.MQTT\HomeAssistant.MQTT.csproj", "{FDDCDFD4-A9CB-435B-B59B-FB0F5A31D7A9}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{729C6DA6-D3F4-4B91-B035-53F2B808C9BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +27,30 @@ Global
 		{CC6CC103-A304-4487-9AE9-E786E6F9B82B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC6CC103-A304-4487-9AE9-E786E6F9B82B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC6CC103-A304-4487-9AE9-E786E6F9B82B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DBF7357-2622-48C2-AD99-187DD2359401}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DBF7357-2622-48C2-AD99-187DD2359401}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DBF7357-2622-48C2-AD99-187DD2359401}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DBF7357-2622-48C2-AD99-187DD2359401}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CBF8DCC-BFB7-4E44-9A93-64E35056B91B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CBF8DCC-BFB7-4E44-9A93-64E35056B91B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CBF8DCC-BFB7-4E44-9A93-64E35056B91B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CBF8DCC-BFB7-4E44-9A93-64E35056B91B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED6004D3-9FD0-4C27-906F-9C22409D8954}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED6004D3-9FD0-4C27-906F-9C22409D8954}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED6004D3-9FD0-4C27-906F-9C22409D8954}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED6004D3-9FD0-4C27-906F-9C22409D8954}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B1CA7DF-38B6-4E46-8C1D-BCFC6287530A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B1CA7DF-38B6-4E46-8C1D-BCFC6287530A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B1CA7DF-38B6-4E46-8C1D-BCFC6287530A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B1CA7DF-38B6-4E46-8C1D-BCFC6287530A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDDCDFD4-A9CB-435B-B59B-FB0F5A31D7A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDDCDFD4-A9CB-435B-B59B-FB0F5A31D7A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDDCDFD4-A9CB-435B-B59B-FB0F5A31D7A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDDCDFD4-A9CB-435B-B59B-FB0F5A31D7A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{729C6DA6-D3F4-4B91-B035-53F2B808C9BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{729C6DA6-D3F4-4B91-B035-53F2B808C9BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{729C6DA6-D3F4-4B91-B035-53F2B808C9BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{729C6DA6-D3F4-4B91-B035-53F2B808C9BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

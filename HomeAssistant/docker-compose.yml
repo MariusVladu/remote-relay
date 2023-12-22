@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  homeassistant.mqtt:
+    image: ${DOCKER_REGISTRY-}homeassistantmqtt
+    build:
+      context: .
+      dockerfile: HomeAssistant.MQTT/Dockerfile
+    ports:
+    - "1883:1883"
+
+  homeassistant.api:
+    image: ${DOCKER_REGISTRY-}homeassistantapi
+    build:
+      context: .
+      dockerfile: HomeAssistant.API/Dockerfile
+
