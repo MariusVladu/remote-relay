@@ -7,6 +7,7 @@ namespace HomeAssistant.Services;
 internal class MqttClient : BusinessLogic.Contracts.Ports.IMqttClient
 {
     private MQTTnet.Client.IMqttClient? mqttClient;
+    private JsonSerializerOptions jsonOptions = new(JsonSerializerDefaults.Web);
 
     public async Task Publish<T>(string topic, T payload)
     {
@@ -15,7 +16,7 @@ internal class MqttClient : BusinessLogic.Contracts.Ports.IMqttClient
 
         var applicationMessage = new MqttApplicationMessageBuilder()
             .WithTopic(topic)
-            .WithPayload(JsonSerializer.Serialize(payload))
+            .WithPayload(JsonSerializer.Serialize(payload, jsonOptions))
             .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.ExactlyOnce)
             .Build();
 
