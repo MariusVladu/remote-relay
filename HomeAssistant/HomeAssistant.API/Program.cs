@@ -1,6 +1,5 @@
-using HomeAssistant.BusinessLogic.Contracts.Ports;
+using HomeAssistant.BusinessLogic.Contracts;
 using HomeAssistant.DI;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,9 +15,8 @@ app.UseSwaggerUI();
 //app.UseHttpsRedirection();
 
 
-app.MapGet("/relays", async ([FromServices] IRelaysService relaysService) =>
-{
-    return await relaysService.GetAll();
-});
+app.MapGet("/relays", async (IRelaysBusinessLogic businessLogic) => await businessLogic.GetAll());
+app.MapPut("/relays/{id}/switch/{k}/on", async (string id, int k, IRelaysBusinessLogic businessLogic) => await businessLogic.SwitchOn(id, k));
+app.MapPut("/relays/{id}/switch/{k}/off", async (string id, int k, IRelaysBusinessLogic businessLogic) => await businessLogic.SwitchOff(id, k));
 
 app.Run();

@@ -9,6 +9,7 @@ public static class DependencyExtensions
     {
         services.AddSingleton<DataContext>();
         services.AddSingleton<IRelaysService, RelaysService>();
+        services.AddSingleton<IMqttClient, MqttClient>();
 
         return services;
     }
