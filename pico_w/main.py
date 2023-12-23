@@ -49,20 +49,24 @@ def report_status():
 
 
 def continuously_report_status():
+    print("Started reporting status")
     while connected is True:
         report_status()
         sleep(5)
+    print("Stopped reporting status")
 
 
 relay.init()
-mqtt.init(wlan_init=True, callback=on_message_received, topics=[command_topic])
-connected = True
-_thread.start_new_thread(continuously_report_status, ())
 
-try:
-    while True:
-        mqtt.wait_msg()
-finally:
-    connected = False
-    mqtt.__client.disconnect()
-    relay.reset_all()
+while True:
+    mqtt.init(wlan_init=True, callback=on_message_received, topics=[command_topic])
+    connected = True
+    _thread.start_new_thread(continuously_report_status, ())
+
+    try:
+        while True:
+            mqtt.wait_msg()
+    except Exception as e:
+        print(f"Exception ocurred: {e}")
+        connected = False
+        sleep(6)

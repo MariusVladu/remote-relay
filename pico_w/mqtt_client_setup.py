@@ -20,26 +20,34 @@ def init(wlan_init=True, callback=None, topics=[]):
         wlan.active(True)
         wlan.connect(secrets.wifi_ssid, secrets.wifi_password)
         while wlan.isconnected() is False:
-            print("Waiting for connection...")
-            sleep(1)
+            print("Waiting for WiFi connection...")
+            sleep(2)
         print("Connected to WiFi")
-
-    global __client
-    __client = MQTTClient(
-        client_id=client_id,
-        server="raspberrypi.local",
-        user="",
-        password="",
-    )
 
     if callback is not None:
         global __on_message_received_callback
         __on_message_received_callback = callback
 
-    __client.set_callback(__on_message_received)
+    global __client
 
-    __client.connect()
-    print("Connected to MQTT")
+    mqtt_connected = False
+    while mqtt_connected is False:
+        try:
+            __client = MQTTClient(
+                client_id=client_id,
+                server="raspberrypi.local",
+                user="",
+                password="",
+            )
+
+            __client.set_callback(__on_message_received)
+
+            __client.connect()
+            print("Connected to MQTT")
+            mqtt_connected = True
+        except OSError:
+            print("Waiting for MQTT server...")
+            sleep(5)
 
     if len(topics) > 0:
         for topic in topics:
