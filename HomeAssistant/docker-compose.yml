@@ -12,6 +12,7 @@ services:
       - "8081:8081"
     environment:
       - MONGODB_CONNECTION_STRING=mongodb://homeassistant.mongodb:27017/
+      - MQTT_SERVER=homeassistant.mqtt
     depends_on:
       - homeassistant.mongodb
       - homeassistant.mqtt
@@ -36,5 +37,7 @@ services:
       - '27017:27017'
     volumes:
       - database:/data/db
+
 volumes:
   database:
+  

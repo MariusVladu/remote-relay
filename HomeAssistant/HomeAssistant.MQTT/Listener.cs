@@ -37,6 +37,9 @@ public static class Listener
     private static async Task HandleMessage(MqttApplicationMessageReceivedEventArgs e)
     {
         var topic = e.ApplicationMessage.Topic;
+        if (topic.StartsWith("command"))
+            return;
+        
         var rawPayload = e.ApplicationMessage.ConvertPayloadToString();
 
         try

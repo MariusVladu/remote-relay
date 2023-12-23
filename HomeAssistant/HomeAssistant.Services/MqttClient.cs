@@ -25,9 +25,10 @@ internal class MqttClient : BusinessLogic.Contracts.Ports.IMqttClient
     private async Task InitializeMqttClient()
     {
         mqttClient = new MqttFactory().CreateMqttClient();
+        var mqttServer = Environment.GetEnvironmentVariable("MQTT_SERVER");
 
         var mqttClientOptions = new MqttClientOptionsBuilder()
-            .WithTcpServer("0.0.0.0")
+            .WithTcpServer(mqttServer)
             .Build();
 
         await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
