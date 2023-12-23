@@ -52,9 +52,9 @@ public static class Listener
 
             await messagesHandler.HandleMessage(mqttMessage);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            Console.WriteLine($"Failed to deserialize payload for topic {topic}. Raw payload:\n{rawPayload}");
+            Console.WriteLine($"Failed to handle message for topic {topic}. Raw payload: {rawPayload}. Exception: {ex}");
         }
     }
 }
