@@ -36,7 +36,6 @@ public static class Listener
 
     private static async Task HandleMessage(MqttApplicationMessageReceivedEventArgs e)
     {
-        var clientId = e.ClientId;
         var topic = e.ApplicationMessage.Topic;
         var rawPayload = e.ApplicationMessage.ConvertPayloadToString();
 
@@ -44,6 +43,8 @@ public static class Listener
         {
             var payload = JsonSerializer.Deserialize<JsonNode>(rawPayload);
             ArgumentNullException.ThrowIfNull(payload);
+
+            var clientId = payload["client_id"]!.ToString();
 
             var mqttMessage = new MqttMessage(clientId, topic, payload);
 
