@@ -9,6 +9,10 @@ services:
       dockerfile: HomeAssistant.MQTT/Dockerfile
     ports:
       - "1883:1883"
+    environment:
+      - MONGODB_CONNECTION_STRING=mongodb://homeassistant.mongodb:27017/
+    depends_on:
+      - homeassistant.mongodb
 
   homeassistant.api:
     image: ${DOCKER_REGISTRY-}homeassistantapi
