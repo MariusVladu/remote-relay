@@ -29,17 +29,16 @@ def init(wlan_init=True, callback=None, topics=[]):
         __on_message_received_callback = callback
 
     global __client
+    __client = MQTTClient(
+        client_id=client_id,
+        server="raspberrypi.local",
+        user="",
+        password="",
+    )
 
     mqtt_connected = False
     while mqtt_connected is False:
         try:
-            __client = MQTTClient(
-                client_id=client_id,
-                server="raspberrypi.local",
-                user="",
-                password="",
-            )
-
             __client.set_callback(__on_message_received)
 
             __client.connect()
